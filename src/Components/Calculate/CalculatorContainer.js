@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import CalculatorPresenter from "./CalculatorPresenter";
 import produce from "immer";
-import Store from "../../store";
+
 const CalculatorContainer = () => {
-  const [totalAmount, setTotalAmount] = useState();
   const [rounds, setRounds] = useState([
     {
       id: 0,
@@ -13,10 +12,15 @@ const CalculatorContainer = () => {
     }
   ]);
 
+  const [value, setValue] = useState("");
+  const [copied, setCopied] = useState(false);
+
   const inputContainerBox = useRef();
+  const resultBox = useRef();
 
   const _handleRoundsChanges = useCallback((e, index, section) => {
     const value = e.target.value;
+    setCopied(false);
     setRounds(
       produce(draft => {
         draft[index][section] = value;
@@ -26,6 +30,7 @@ const CalculatorContainer = () => {
   }, []);
 
   const _handleAddRounds = () => {
+    setCopied(false);
     setRounds(
       produce(draft => {
         const newRound = {
@@ -42,6 +47,7 @@ const CalculatorContainer = () => {
 
   const _handleDeleteRounds = id => {
     if (window.confirm("지울거에요?🙅🏻‍♂️")) {
+      setCopied(false);
       setRounds(
         produce(draft => {
           draft.splice(draft.findIndex(round => round.id === id));
@@ -50,22 +56,25 @@ const CalculatorContainer = () => {
     }
   };
 
+  const _handleCopyClipBoard = () => {
+    setCopied(true);
+  };
+
   useEffect(() => {
     inputContainerBox.current.scrollTop =
       inputContainerBox.current.scrollHeight;
   }, [rounds]);
 
   return (
-    <Store.Provider value={totalAmount}>
-      <CalculatorPresenter
-        rounds={rounds}
-        _handleRoundsChanges={_handleRoundsChanges}
-        _handleAddRounds={_handleAddRounds}
-        _handleDeleteRounds={_handleDeleteRounds}
-        inputContainerBox={inputContainerBox}
-        setTotalAmount={setTotalAmount}
-      />
-    </Store.Provider>
+    <CalculatorPresenter
+      rounds={rounds}
+      _handleRoundsChanges={_handleRoundsChanges}
+      _handleAddRounds={_handleAddRounds}
+      _handleDeleteRounds={_handleDeleteRounds}
+      _handleCopyClipBoard={_handleCopyClipBoard}
+      inputContainerBox={inputContainerBox}
+      resultBox={resultBox}
+    />
   );
 };
 

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import produce from "immer";
-import Store from "../../store";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -42,7 +43,7 @@ const StyledTitle = styled.div`
   margin-top: 1rem;
 `;
 
-const RoundAddButton = styled.button`
+const HorizontalButton = styled.button`
   margin-top: 0.5rem;
   border: ${props => props.theme.boxBorder};
   text-align: center;
@@ -67,7 +68,7 @@ const RoundDeleteButton = styled.button`
 
 const CalculateContainer = styled.div`
   margin-top: 0.5rem;
-  height: 30vh;
+  height: 25vh;
   border: ${props => props.theme.boxBorder};
   padding: 1rem;
   overflow: scroll;
@@ -184,7 +185,8 @@ const TotalAmountComponent = ({ rounds }) => {
       <br />
       {forPremium > 0 && (
         <div>
-          총 프리미엄비 : {forPremium} 원 3333089723279 카카오뱅크 윤수민
+          프리미엄비 여기로 (벙주만 입금) 💳 => {forPremium} 원 3333089723279
+          카카오뱅크 윤수민
         </div>
       )}
     </>
@@ -196,11 +198,22 @@ const CalculatorPresenter = ({
   _handleRoundsChanges,
   _handleAddRounds,
   _handleDeleteRounds,
+  _handleCopyClipBoard,
   inputContainerBox,
-  setTotalAmount
+  resultBox
 }) => {
+  const [bank, setBank] = useState("");
+
   return (
     <Container>
+      <StyledInputs
+        placeholder="계좌번호랑 예금주 입력해 주세요 💳"
+        value={bank}
+        onChange={e => {
+          setBank(e.target.value);
+        }}
+      />
+
       <InputContainer ref={inputContainerBox}>
         {rounds.map((round, index) => (
           <RoundSection key={index}>
@@ -233,23 +246,33 @@ const CalculatorPresenter = ({
           </RoundSection>
         ))}
       </InputContainer>
-      <RoundAddButton onClick={_handleAddRounds}>
+      <HorizontalButton onClick={_handleAddRounds}>
         <span role="img" aria-label="술 더먹으러">
           ➕
         </span>{" "}
         어딜 더 갔을까?
-      </RoundAddButton>
-      <CalculateContainer>
+      </HorizontalButton>
+
+      <CalculateContainer ref={resultBox}>
+        정산은 여기로 ✅ {bank} <br />
+        <br />
         {rounds.map(round => (
-          <CalculateRoundComponent
-            round={round}
-            key={round.id}
-            setTotalAmount={setTotalAmount}
-          />
+          <CalculateRoundComponent round={round} key={round.id} />
         ))}
         <TotalAmountComponent rounds={rounds} />
-        <Store.Consumer>{store => JSON.stringify(store)}</Store.Consumer>
       </CalculateContainer>
+
+      <CopyToClipboard
+        text={resultBox?.current?.innerText}
+        onCopy={_handleCopyClipBoard}
+      >
+        <HorizontalButton>
+          <span role="img" aria-label="Copy Clipboard">
+            📋
+          </span>{" "}
+          내용 클립보드로 복사
+        </HorizontalButton>
+      </CopyToClipboard>
     </Container>
   );
 };
