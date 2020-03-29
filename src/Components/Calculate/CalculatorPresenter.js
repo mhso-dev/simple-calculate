@@ -157,7 +157,7 @@ const TotalAmountComponent = ({ rounds }) => {
   useEffect(() => {
     setForPremium(
       produce(_ => {
-        if (total && total.length > 2) {
+        if (total && total.length > 0) {
           const totalAmount = total.reduce((acc, value) => {
             return acc + value.totalAmount;
           }, 0);
