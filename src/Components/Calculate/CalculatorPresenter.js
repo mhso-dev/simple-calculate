@@ -206,15 +206,14 @@ const CalculatorPresenter = ({
 
   return (
     <Container>
-      <StyledInputs
-        placeholder="계좌번호랑 예금주 입력해 주세요 💳"
-        value={bank}
-        onChange={e => {
-          setBank(e.target.value);
-        }}
-      />
-
       <InputContainer ref={inputContainerBox}>
+        <StyledInputs
+          placeholder="계좌번호랑 예금주 입력해 주세요 💳"
+          value={bank}
+          onChange={e => {
+            setBank(e.target.value);
+          }}
+        />
         {rounds.map((round, index) => (
           <RoundSection key={index}>
             <StyledTitle>
