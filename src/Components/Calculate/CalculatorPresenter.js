@@ -196,8 +196,8 @@ const TotalAmountComponent = ({ rounds }) => {
             {t.name} {t.totalAmount}{" "}
             {t.totalPremium > t.totalAmount && (
               <span>
-                ( 💖프리미엄 {t.totalPremium}원 {t.totalPremium - t.totalAmount}{" "}
-                원 추가💖)
+                / 프리미엄 {t.totalPremium}원 (+{t.totalPremium - t.totalAmount}
+                원😀)
               </span>
             )}
           </div>
