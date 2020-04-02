@@ -120,12 +120,10 @@ const TotalAmountComponent = ({ rounds }) => {
         const personList = rounds.map(round => {
           const plist = round.people.trim().split(" ");
           const averageAmount = parseInt(round.amount / plist.length);
-          const averagePremium =
-            Math.round(parseInt(round.amount / plist.length) / 1000) * 1000 >
+          const averagePremium = Math.max(
+            Math.round(parseInt(round.amount / plist.length) / 1000) * 1000,
             averageAmount
-              ? Math.round(parseInt(round.amount / plist.length) / 1000) * 1000
-              : averageAmount;
-
+          );
           const pAmount = plist.map(name => ({
             name,
             averageAmount,
@@ -153,6 +151,7 @@ const TotalAmountComponent = ({ rounds }) => {
 
         const result = Object.keys(reduced).map(key => {
           const item = reduced[key];
+
           return {
             name: item.name,
             totalAmount: item.averageAmount,
