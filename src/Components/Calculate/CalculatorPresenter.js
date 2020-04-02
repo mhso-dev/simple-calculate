@@ -95,8 +95,14 @@ const CalculateRoundComponent = ({ round }) => {
       </div>{" "}
       <div>
         각 {parseInt(round.amount / personList.length)} /{" "}
-        {Math.ceil(parseInt(round.amount / personList.length) / 1000) * 1000} (
-        프리미엄비 포함 )
+        {Math.round(parseInt(round.amount / personList.length) / 1000) * 1000 >
+          parseInt(round.amount / personList.length) && (
+          <span>
+            {Math.round(parseInt(round.amount / personList.length) / 1000) *
+              1000}{" "}
+            ( 프리미엄비 포함 )
+          </span>
+        )}
         <br />
         <br />
       </div>
@@ -114,7 +120,10 @@ const TotalAmountComponent = ({ rounds }) => {
           const plist = round.people.trim().split(" ");
           const averageAmount = parseInt(round.amount / plist.length);
           const averagePremium =
-            Math.ceil(parseInt(round.amount / plist.length) / 1000) * 1000;
+            Math.round(parseInt(round.amount / plist.length) / 1000) * 1000 >
+            averageAmount
+              ? Math.round(parseInt(round.amount / plist.length) / 1000) * 1000
+              : averageAmount;
 
           const pAmount = plist.map(name => ({
             name,
@@ -179,7 +188,10 @@ const TotalAmountComponent = ({ rounds }) => {
         total.map(t => (
           <div key={t.name}>
             <br />
-            {t.name} {t.totalAmount} ( 프리미엄 {t.totalPremium} )
+            {t.name} {t.totalAmount}{" "}
+            {t.totalPremium > t.totalAmount && (
+              <span>( 프리미엄 {t.totalPremium} ) </span>
+            )}
           </div>
         ))}
       <br />
