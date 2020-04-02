@@ -94,15 +94,16 @@ const CalculateRoundComponent = ({ round }) => {
         ( 총 {personList.length} 명 )
       </div>{" "}
       <div>
-        각 {parseInt(round.amount / personList.length)} /{" "}
+        각 {parseInt(round.amount / personList.length)} 원
+        {/* /{" "}
         {Math.round(parseInt(round.amount / personList.length) / 1000) * 1000 >
           parseInt(round.amount / personList.length) && (
           <span>
             {Math.round(parseInt(round.amount / personList.length) / 1000) *
               1000}{" "}
             ( 프리미엄비 포함 )
-          </span>
-        )}
+          </span> }
+        )*/}
         <br />
         <br />
       </div>
@@ -155,7 +156,11 @@ const TotalAmountComponent = ({ rounds }) => {
           return {
             name: item.name,
             totalAmount: item.averageAmount,
-            totalPremium: item.averagePremium
+            // totalPremium: item.averagePremium
+            totalPremium: Math.max(
+              Math.round(parseInt(item.averageAmount) / 1000) * 1000,
+              item.averageAmount
+            ) // 최종 Amount에 대해 100원단위에서 반올림
           };
         });
 
@@ -190,7 +195,10 @@ const TotalAmountComponent = ({ rounds }) => {
             <br />
             {t.name} {t.totalAmount}{" "}
             {t.totalPremium > t.totalAmount && (
-              <span>( 프리미엄 {t.totalPremium} ) </span>
+              <span>
+                ( 💖프리미엄 {t.totalPremium}원 {t.totalPremium - t.totalAmount}{" "}
+                원 추가💖)
+              </span>
             )}
           </div>
         ))}
@@ -198,7 +206,7 @@ const TotalAmountComponent = ({ rounds }) => {
       {forPremium > 0 && (
         <div>
           프리미엄비 여기로 (벙주만 입금) 💳 => {forPremium} 원 3333089723279
-          카카오뱅크 윤수민
+          카카오뱅크 윤수민 💖소중히 운영금으로 사용하겠습니다 💖
         </div>
       )}
     </>
