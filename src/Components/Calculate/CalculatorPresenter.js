@@ -193,7 +193,7 @@ const TotalAmountComponent = ({ rounds }) => {
         total.map(t => (
           <div key={t.name}>
             <br />
-            {t.name} {t.totalAmount}{" "}
+            {t.name} {t.totalAmount}원{" "}
             {t.totalPremium > t.totalAmount && (
               <span>
                 / 프리미엄 {t.totalPremium}원 (+{t.totalPremium - t.totalAmount}
