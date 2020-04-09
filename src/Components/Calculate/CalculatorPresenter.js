@@ -12,7 +12,7 @@ const Container = styled.div`
 `;
 
 const InputContainer = styled.div`
-  ${props => props.theme.whiteBox}
+  ${(props) => props.theme.whiteBox}
   padding:1rem;
   height: 60vh;
   overflow: scroll;
@@ -24,19 +24,19 @@ const RoundSection = styled.div`
 
 const StyledInputs = styled.input`
   all: unset;
-  border-bottom: 1px solid ${props => props.theme.darkGreyColor};
-  color: ${props => props.theme.blackColor};
+  border-bottom: 1px solid ${(props) => props.theme.darkGreyColor};
+  color: ${(props) => props.theme.blackColor};
   width: 100%;
   margin-top: 1rem;
   padding: 0.3rem;
   font-size: 1rem;
   ::placeholder {
-    color: ${props => props.theme.blueColor};
+    color: ${(props) => props.theme.blueColor};
   }
 `;
 
 const StyledTitle = styled.div`
-  color: ${props => props.theme.blackColor};
+  color: ${(props) => props.theme.blackColor};
   font-size: 2rem;
   font-weight: 600;
 
@@ -45,11 +45,11 @@ const StyledTitle = styled.div`
 
 const HorizontalButton = styled.button`
   margin-top: 0.5rem;
-  border: ${props => props.theme.boxBorder};
+  border: ${(props) => props.theme.boxBorder};
   text-align: center;
   :focus {
     outline: 0;
-    background-color: ${props => props.theme.blueColor};
+    background-color: ${(props) => props.theme.blueColor};
     color: white;
     transition: 0.2s ease-in-out;
   }
@@ -59,9 +59,9 @@ const RoundDeleteButton = styled.button`
   all: unset;
   font-size: 0.3em;
   padding: 3px;
-  border: ${props => props.theme.boxBorder};
+  border: ${(props) => props.theme.boxBorder};
   :focus {
-    background-color: ${props => props.theme.lightGreyColor};
+    background-color: ${(props) => props.theme.lightGreyColor};
     transition: 0.2s ease-in-out;
   }
 `;
@@ -69,7 +69,7 @@ const RoundDeleteButton = styled.button`
 const CalculateContainer = styled.div`
   margin-top: 0.5rem;
   height: 25vh;
-  border: ${props => props.theme.boxBorder};
+  border: ${(props) => props.theme.boxBorder};
   padding: 1rem;
   overflow: scroll;
 `;
@@ -90,7 +90,7 @@ const CalculateRoundComponent = ({ round }) => {
         {round?.people
           .trim()
           .split(" ")
-          .map(name => `${name} `)}{" "}
+          .map((name) => `${name} `)}{" "}
         ( 총 {personList.length} 명 )
       </div>{" "}
       <div>
@@ -116,18 +116,18 @@ const TotalAmountComponent = ({ rounds }) => {
   const [forPremium, setForPremium] = useState();
   useEffect(() => {
     setTotal(
-      produce(_ => {
-        const personList = rounds.map(round => {
+      produce((_) => {
+        const personList = rounds.map((round) => {
           const plist = round.people.trim().split(" ");
           const averageAmount = parseInt(round.amount / plist.length);
           const averagePremium = Math.max(
             Math.round(parseInt(round.amount / plist.length) / 1000) * 1000,
             averageAmount
           );
-          const pAmount = plist.map(name => ({
+          const pAmount = plist.map((name) => ({
             name,
             averageAmount,
-            averagePremium
+            averagePremium,
           }));
 
           return pAmount;
@@ -149,7 +149,7 @@ const TotalAmountComponent = ({ rounds }) => {
           return acc;
         }, []);
 
-        const result = Object.keys(reduced).map(key => {
+        const result = Object.keys(reduced).map((key) => {
           const item = reduced[key];
 
           return {
@@ -159,7 +159,7 @@ const TotalAmountComponent = ({ rounds }) => {
             totalPremium: Math.max(
               Math.round(parseInt(item.averageAmount) / 1000) * 1000,
               item.averageAmount
-            ) // 최종 Amount에 대해 100원단위에서 반올림
+            ), // 최종 Amount에 대해 100원단위에서 반올림
           };
         });
 
@@ -170,7 +170,7 @@ const TotalAmountComponent = ({ rounds }) => {
 
   useEffect(() => {
     setForPremium(
-      produce(_ => {
+      produce((_) => {
         if (total && total.length > 0) {
           const totalAmount = total.reduce((acc, value) => {
             return acc + value.totalAmount;
@@ -189,15 +189,17 @@ const TotalAmountComponent = ({ rounds }) => {
     <>
       {total &&
         total.length > 1 &&
-        total.map(t => (
+        total.map((t) => (
           <div key={t.name}>
             <br />
-            {t.name} {t.totalAmount}원{" "}
-            {t.totalPremium > t.totalAmount && (
+            {t.name}{" "}
+            {t.totalPremium > t.totalAmount ? (
               <span>
                 / 프리미엄 {t.totalPremium}원 (+{t.totalPremium - t.totalAmount}
                 원😀)
               </span>
+            ) : (
+              <span>{t.totalAmount} 원</span>
             )}
           </div>
         ))}
@@ -219,7 +221,7 @@ const CalculatorPresenter = ({
   _handleDeleteRounds,
   _handleCopyClipBoard,
   inputContainerBox,
-  resultBox
+  resultBox,
 }) => {
   const [bank, setBank] = useState("");
 
@@ -229,7 +231,7 @@ const CalculatorPresenter = ({
         <StyledInputs
           placeholder="계좌번호랑 예금주 입력해 주세요 💳"
           value={bank}
-          onChange={e => {
+          onChange={(e) => {
             setBank(e.target.value);
           }}
         />
@@ -248,18 +250,18 @@ const CalculatorPresenter = ({
             <StyledInputs
               placeholder={"어디서 🍻"}
               value={round.place}
-              onChange={e => _handleRoundsChanges(e, index, "place")}
+              onChange={(e) => _handleRoundsChanges(e, index, "place")}
             />
             <StyledInputs
               value={round.people}
               placeholder={"누구랑 👨‍👩‍👧‍👦"}
-              onChange={e => _handleRoundsChanges(e, index, "people")}
+              onChange={(e) => _handleRoundsChanges(e, index, "people")}
             />
             <StyledInputs
               type={"number"}
               value={round.amount}
               placeholder={`${index + 1}차 에선 얼마가..? 💵`}
-              onChange={e => _handleRoundsChanges(e, index, "amount")}
+              onChange={(e) => _handleRoundsChanges(e, index, "amount")}
             />
           </RoundSection>
         ))}
@@ -274,7 +276,7 @@ const CalculatorPresenter = ({
       <CalculateContainer ref={resultBox}>
         정산은 여기로 ✅ {bank} <br />
         <br />
-        {rounds.map(round => (
+        {rounds.map((round) => (
           <CalculateRoundComponent round={round} key={round.id} />
         ))}
         <TotalAmountComponent rounds={rounds} />
