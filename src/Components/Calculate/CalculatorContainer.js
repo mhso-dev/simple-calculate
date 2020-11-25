@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import CalculatorPresenter from "./CalculatorPresenter";
 import produce from "immer";
+import copy from "copy-to-clipboard";
 
 const CalculatorContainer = () => {
   const [rounds, setRounds] = useState([
@@ -57,7 +58,10 @@ const CalculatorContainer = () => {
   };
 
   const _handleCopyClipBoard = () => {
-    setCopied(true);
+    window.getSelection().selectAllChildren(resultBox.current);
+    // console.log(window.getSelection().toString());
+    // copy(window.getSelection().toString());
+    // setCopied(true);
   };
 
   useEffect(() => {

@@ -3,6 +3,10 @@ import styled from "styled-components";
 import produce from "immer";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -84,7 +88,8 @@ const CalculateRoundComponent = ({ round }) => {
   return (
     <>
       <div>
-        {round.id + 1} 차( {round.place} ) 총 금액 {round.amount}
+        {round.id + 1} 차( {round.place} ) 총 금액{" "}
+        {numberWithCommas(round.amount)}
       </div>
       <div>
         {round?.people
@@ -94,7 +99,7 @@ const CalculateRoundComponent = ({ round }) => {
         ( 총 {personList.length} 명 )
       </div>{" "}
       <div>
-        각 {parseInt(round.amount / personList.length)} 원
+        각 {numberWithCommas(parseInt(round.amount / personList.length))} 원
         {/* /{" "}
         {Math.round(parseInt(round.amount / personList.length) / 1000) * 1000 >
           parseInt(round.amount / personList.length) && (
@@ -191,8 +196,8 @@ const TotalAmountComponent = ({ rounds }) => {
         total.length > 1 &&
         total.map((t) => (
           <div key={t.name}>
-            <br />
-            {t.name}{" "}
+            {/* <br />
+            
             {t.totalPremium > t.totalAmount ? (
               <span>
                 / 프리미엄 {t.totalPremium}원 (+{t.totalPremium - t.totalAmount}
@@ -200,16 +205,17 @@ const TotalAmountComponent = ({ rounds }) => {
               </span>
             ) : (
               <span>{t.totalAmount} 원</span>
-            )}
+            )} */}
+            {t.name} <span>{numberWithCommas(t.totalAmount)} 원</span>
           </div>
         ))}
       <br />
-      {forPremium > 0 && (
+      {/* {forPremium > 0 && (
         <div>
           프리미엄비 여기로 (벙주만 입금) 💳 => {forPremium} 원 3333089723279
           카카오뱅크 윤수민 💖소중히 운영금으로 사용하겠습니다 💖
         </div>
-      )}
+      )} */}
     </>
   );
 };
@@ -274,7 +280,8 @@ const CalculatorPresenter = ({
       </HorizontalButton>
 
       <CalculateContainer ref={resultBox}>
-        정산은 여기로 ✅ {bank} <br />
+        <span>정산은 여기로 ✅ {bank} </span>
+        <br />
         <br />
         {rounds.map((round) => (
           <CalculateRoundComponent round={round} key={round.id} />
@@ -282,7 +289,7 @@ const CalculatorPresenter = ({
         <TotalAmountComponent rounds={rounds} />
       </CalculateContainer>
 
-      <CopyToClipboard
+      {/* <CopyToClipboard
         text={resultBox?.current?.innerText}
         onCopy={_handleCopyClipBoard}
       >
@@ -292,7 +299,13 @@ const CalculatorPresenter = ({
           </span>{" "}
           내용 클립보드로 복사
         </HorizontalButton>
-      </CopyToClipboard>
+      </CopyToClipboard> */}
+      <HorizontalButton onClick={_handleCopyClipBoard}>
+        <span role="img" aria-label="Copy Clipboard">
+          📋
+        </span>{" "}
+        내용 전체 선택
+      </HorizontalButton>
     </Container>
   );
 };
