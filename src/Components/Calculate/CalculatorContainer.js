@@ -8,8 +8,8 @@ const CalculatorContainer = () => {
       id: 0,
       people: "",
       amount: "",
-      place: ""
-    }
+      place: "",
+    },
   ]);
 
   const [value, setValue] = useState("");
@@ -22,7 +22,7 @@ const CalculatorContainer = () => {
     const value = e.target.value;
     setCopied(false);
     setRounds(
-      produce(draft => {
+      produce((draft) => {
         draft[index][section] = value;
         return draft;
       })
@@ -32,12 +32,12 @@ const CalculatorContainer = () => {
   const _handleAddRounds = () => {
     setCopied(false);
     setRounds(
-      produce(draft => {
+      produce((draft) => {
         const newRound = {
           id: rounds.length,
-          people: "",
+          people: rounds[rounds.length - 1].people,
           amount: "",
-          place: ""
+          place: "",
         };
         draft.push(newRound);
         return draft;
@@ -45,12 +45,12 @@ const CalculatorContainer = () => {
     );
   };
 
-  const _handleDeleteRounds = id => {
+  const _handleDeleteRounds = (id) => {
     if (window.confirm("지울거에요?🙅🏻‍♂️")) {
       setCopied(false);
       setRounds(
-        produce(draft => {
-          draft.splice(draft.findIndex(round => round.id === id));
+        produce((draft) => {
+          draft.splice(draft.findIndex((round) => round.id === id));
         })
       );
     }
