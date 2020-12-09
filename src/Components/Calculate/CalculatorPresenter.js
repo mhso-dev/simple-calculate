@@ -288,7 +288,7 @@ const CalculatorPresenter = ({
         <TotalAmountComponent rounds={rounds} />
       </CalculateContainer>
 
-      {/* <CopyToClipboard
+      <CopyToClipboard
         text={resultBox?.current?.innerText}
         onCopy={_handleCopyClipBoard}
       >
@@ -298,13 +298,13 @@ const CalculatorPresenter = ({
           </span>{" "}
           내용 클립보드로 복사
         </HorizontalButton>
-      </CopyToClipboard> */}
-      <HorizontalButton onClick={_handleCopyClipBoard}>
+      </CopyToClipboard>
+      {/* <HorizontalButton onClick={_handleCopyClipBoard}>
         <span role="img" aria-label="Copy Clipboard">
           📋
         </span>{" "}
         내용 전체 선택
-      </HorizontalButton>
+      </HorizontalButton> */}
     </Container>
   );
 };

@@ -59,8 +59,10 @@ const CalculatorContainer = () => {
 
   const _handleCopyClipBoard = () => {
     // window.getSelection().selectAllChildren(resultBox.current);
-    console.log(window.getSelection().toString());
-    copy(window.getSelection().toString());
+    const text = resultBox.current.innerText;
+    const textarea = document.createElement("textarea");
+    textarea.text = text;
+    copy(textarea.text);
     setCopied(true);
   };
 
