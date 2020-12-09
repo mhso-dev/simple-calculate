@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import CalculatorPresenter from "./CalculatorPresenter";
 import produce from "immer";
 import copy from "copy-to-clipboard";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CalculatorContainer = () => {
   const [rounds, setRounds] = useState([
@@ -13,7 +15,6 @@ const CalculatorContainer = () => {
     },
   ]);
 
-  const [value, setValue] = useState("");
   const [copied, setCopied] = useState(false);
 
   const inputContainerBox = useRef();
@@ -67,6 +68,7 @@ const CalculatorContainer = () => {
       format: "text/plain",
     });
     setCopied(true);
+    toast("클립보드 복사 성공!");
   };
 
   useEffect(() => {
@@ -75,15 +77,19 @@ const CalculatorContainer = () => {
   }, [rounds]);
 
   return (
-    <CalculatorPresenter
-      rounds={rounds}
-      _handleRoundsChanges={_handleRoundsChanges}
-      _handleAddRounds={_handleAddRounds}
-      _handleDeleteRounds={_handleDeleteRounds}
-      _handleCopyClipBoard={_handleCopyClipBoard}
-      inputContainerBox={inputContainerBox}
-      resultBox={resultBox}
-    />
+    <>
+      <CalculatorPresenter
+        copied={copied}
+        rounds={rounds}
+        _handleRoundsChanges={_handleRoundsChanges}
+        _handleAddRounds={_handleAddRounds}
+        _handleDeleteRounds={_handleDeleteRounds}
+        _handleCopyClipBoard={_handleCopyClipBoard}
+        inputContainerBox={inputContainerBox}
+        resultBox={resultBox}
+      />
+      <ToastContainer />
+    </>
   );
 };
 
