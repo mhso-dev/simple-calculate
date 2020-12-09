@@ -58,10 +58,10 @@ const CalculatorContainer = () => {
   };
 
   const _handleCopyClipBoard = () => {
-    window.getSelection().selectAllChildren(resultBox.current);
-    // console.log(window.getSelection().toString());
-    // copy(window.getSelection().toString());
-    // setCopied(true);
+    // window.getSelection().selectAllChildren(resultBox.current);
+    console.log(window.getSelection().toString());
+    copy(window.getSelection().toString());
+    setCopied(true);
   };
 
   useEffect(() => {

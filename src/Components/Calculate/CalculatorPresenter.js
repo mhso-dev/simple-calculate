@@ -206,7 +206,7 @@ const TotalAmountComponent = ({ rounds }) => {
             ) : (
               <span>{t.totalAmount} 원</span>
             )} */}
-            {t.name} <span>{numberWithCommas(t.totalAmount)} 원</span>
+            ☞ {t.name} <span>{numberWithCommas(t.totalAmount)} 원</span>
           </div>
         ))}
       <br />
@@ -281,11 +281,10 @@ const CalculatorPresenter = ({
 
       <CalculateContainer ref={resultBox}>
         <span>정산은 여기로 ✅ {bank} </span>
-        <br />
-        <br />
         {rounds.map((round) => (
           <CalculateRoundComponent round={round} key={round.id} />
         ))}
+        <p>-------------------------------</p>
         <TotalAmountComponent rounds={rounds} />
       </CalculateContainer>
 
