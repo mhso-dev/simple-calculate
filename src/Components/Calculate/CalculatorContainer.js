@@ -62,7 +62,10 @@ const CalculatorContainer = () => {
     const text = resultBox.current.innerText;
     const textarea = document.createElement("textarea");
     textarea.text = text;
-    copy(textarea.text);
+
+    copy(textarea.text, {
+      format: "text/plain",
+    });
     setCopied(true);
   };
 
