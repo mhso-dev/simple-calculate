@@ -16,7 +16,7 @@ function App() {
   return (
     <ThemeProvider theme={Theme}>
       <Helmet>
-        <title>소모임 정산 시스템</title>
+        <title>얼마나 먹었니?</title>
       </Helmet>
       <Wrapper>
         <GlobalStyles />
